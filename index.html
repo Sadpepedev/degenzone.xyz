@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Derive X Etherfi Event</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1a1a2e;
+      color: #eaeaea;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #16213e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #00d4ff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #00d4ff;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1a1a2e;
+      color: #eaeaea;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: 2px solid #00d4ff;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #00d4ff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0099cc;
+    }
+
+    .results {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: #0f3460;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .results h3 {
+      margin-top: 0;
+      color: #00d4ff;
+    }
+
+    .maintained {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .maintained a {
+      color: #00d4ff;
+      text-decoration: none;
+    }
+
+    .maintained a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Derive X Etherfi Event</h1>
+    <label for="airdropPercentage">Total Airdrop Allocation (The community average has been around 7.5% historically)</label>
+    <input type="number" id="airdropPercentage" placeholder="Enter allocation percentage (e.g., 7.5%)" />
+
+    <label for="fdv">Speculated Fully Diluted Valuation of Derive(FDV in $)</label>
+    <input type="number" id="fdv" placeholder="Enter FDV (Lyra was $135,000,000)" />
+
+    <label for="participants">Number of Participants</label>
+    <input type="number" id="participants" placeholder="Enter the number of participants (This event was capped at 1000)" />
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <div class="maintained">
+    Maintained by <a href="https://x.com/Dustybeerbong" target="_blank">@Dustybeerbong on X</a>
+  </div>
+
+  <script>
+    function calculate() {
+      const totalSupply = 1000000000; // Total supply of tokens
+      const airdropPercentage = parseFloat(document.getElementById("airdropPercentage").value);
+      const fdv = parseFloat(document.getElementById("fdv").value);
+      const participants = parseInt(document.getElementById("participants").value);
+
+      if (!airdropPercentage || !fdv || !participants) {
+        document.getElementById("results").innerHTML = "<p style='color: red;'>Please fill in all fields correctly.</p>";
+        return;
+      }
+
+      // Calculate the total airdrop allocation in tokens
+      const totalAirdropTokens = (totalSupply * airdropPercentage) / 100;
+
+      // Calculate the 2.5% of the airdrop allocation
+      const allocationTokens = totalAirdropTokens * 0.025;
+
+      // Calculate the price per token
+      const tokenPrice = fdv / totalSupply;
+
+      // Calculate total value and individual value
+      const maxTotalValue = allocationTokens * tokenPrice;
+      const maxIndividualValue = maxTotalValue / participants;
+
+      // Display results
+      document.getElementById("results").innerHTML = `
+        <h3>Results:</h3>
+        <p><strong>Total Airdrop Tokens:</strong> ${totalAirdropTokens.toLocaleString()} tokens</p>
+        <p><strong>Tokens Allocated to 2.5%:</strong> ${allocationTokens.toLocaleString()} tokens</p>
+        <p><strong>Max Total Value:</strong> $${maxTotalValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+        <p><strong>Max Individual Value:</strong> $${maxIndividualValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} per person</p>
+      `;
+    }
+  </script>
+</body>
+</html>

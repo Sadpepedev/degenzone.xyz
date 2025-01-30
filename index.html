@@ -1,156 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Derive X Etherfi Event</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #1a1a2e;
-      color: #eaeaea;
-      margin: 0;
-      padding: 20px;
-    }
+import { useState } from 'react';
+import { Navigation, ArrowRight, Rocket, Blockchain, Security, Lightning } from 'lucide-react';
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #16213e;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    }
+export default function Web3Site() {
+  const [mounted, setMounted] = useState(false);
 
-    h1 {
-      color: #00d4ff;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+  return (
+    <div className="min-h-screen bg-black text-white font-sans">
+      {/* Custom CSS for gradient */}
+      <style jsx global>{`
+        @keyframes float {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+          100% { transform: translateY(0px); }
+        }
 
-    label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
-      color: #00d4ff;
-    }
+        .gradient-bg {
+          background: linear-gradient(45deg, #00ff87, #60efff);
+        }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 5px;
-      background-color: #1a1a2e;
-      color: #eaeaea;
-      font-size: 16px;
-    }
+        .hover-anim {
+          transition: all 0.3s ease;
+        }
 
-    input:focus {
-      outline: 2px solid #00d4ff;
-    }
+        .glass-effect {
+          backdrop-filter: blur(10px) saturate(150%);
+          -webkit-backdrop-filter: blur(10px) saturate(150%);
+        }
+      `}</style>
 
-    button {
-      width: 100%;
-      padding: 15px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #fff;
-      background-color: #00d4ff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+      {/* Navigation */}
+      <nav className="fixed w-full z-50 bg-black/80 backdrop-blur-md px-6 py-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center gap-2">
+            <Navigation size={24} />
+            <span className="text-xl font-bold">Web3Hub</span>
+          </div>
+          <div className="flex space-x-6">
+            <a href="#" className="hover:text-blue-400 transition-colors">Home</a>
+            <a href="#" className="hover:text-blue-400 transition-colors">About</a>
+            <a href="#" className="hover:text-blue-400 transition-colors">Products</a>
+            <a href="#" className="hover:text-blue-400 transition-colors">Contact</a>
+          </div>
+        </div>
+      </nav>
 
-    button:hover {
-      background-color: #0099cc;
-    }
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-5xl font-bold mb-6 opacity-100">Welcome to the Future of Web3</h1>
+          <p className="text-xl text-gray-400 mb-8 opacity-90">Experience the next generation of decentralized applications and technologies.</p>
+          <button className="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-full transition-colors flex items-center gap-2 mx-auto">
+            Get Started
+            <ArrowRight size={20} />
+          </button>
+        </div>
+      </section>
 
-    .results {
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 5px;
-      background-color: #0f3460;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+      {/* Features Grid */}
+      <section className="py-20 bg-gradient-to-r from-blue-900 to-black/50 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Web3Hub</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <Blockchain size={40} />,
+                title: "Decentralized",
+                description: "Join the decentralized future of the internet"
+              },
+              {
+                icon: <Security size={40} />,
+                title: "Secure",
+                description: "Advanced security protocols for your peace of mind"
+              },
+              {
+                icon: <Lightning size={40} />,
+                title: "Fast",
+                description: "Lightning-fast transactions and performance"
+              }
+            ].map((feature, index) => (
+              <div key={index} className="flex flex-col items-center text-center p-6 rounded-xl bg-black/50 hover:bg-black/70 transition-colors cursor-pointer transform hover:scale-[1.02]">
+                <div className="mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-bold mb-2 opacity-100">{feature.title}</h3>
+                <p className="text-gray-400 opacity-90">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-    .results h3 {
-      margin-top: 0;
-      color: #00d4ff;
-    }
-
-    .maintained {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .maintained a {
-      color: #00d4ff;
-      text-decoration: none;
-    }
-
-    .maintained a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Derive X Etherfi Event</h1>
-    <label for="airdropPercentage">Total Airdrop Allocation (The community average has been around 7.5% historically)</label>
-    <input type="number" id="airdropPercentage" placeholder="Enter allocation percentage (e.g., 7.5%)" />
-
-    <label for="fdv">Speculated Fully Diluted Valuation of Derive(FDV in $)</label>
-    <input type="number" id="fdv" placeholder="Enter FDV (Lyra was $135,000,000)" />
-
-    <label for="participants">Number of Participants</label>
-    <input type="number" id="participants" placeholder="Enter the number of participants (This event was capped at 1000)" />
-
-    <button onclick="calculate()">Calculate</button>
-
-    <div class="results" id="results"></div>
-  </div>
-
-  <div class="maintained">
-    Maintained by <a href="https://x.com/Dustybeerbong" target="_blank">@Dustybeerbong on X</a>
-  </div>
-
-  <script>
-    function calculate() {
-      const totalSupply = 1000000000; // Total supply of tokens
-      const airdropPercentage = parseFloat(document.getElementById("airdropPercentage").value);
-      const fdv = parseFloat(document.getElementById("fdv").value);
-      const participants = parseInt(document.getElementById("participants").value);
-
-      if (!airdropPercentage || !fdv || !participants) {
-        document.getElementById("results").innerHTML = "<p style='color: red;'>Please fill in all fields correctly.</p>";
-        return;
-      }
-
-      // Calculate the total airdrop allocation in tokens
-      const totalAirdropTokens = (totalSupply * airdropPercentage) / 100;
-
-      // Calculate the 2.5% of the airdrop allocation
-      const allocationTokens = totalAirdropTokens * 0.025;
-
-      // Calculate the price per token
-      const tokenPrice = fdv / totalSupply;
-
-      // Calculate total value and individual value
-      const maxTotalValue = allocationTokens * tokenPrice;
-      const maxIndividualValue = maxTotalValue / participants;
-
-      // Display results
-      document.getElementById("results").innerHTML = `
-        <h3>Results:</h3>
-        <p><strong>Total Airdrop Tokens:</strong> ${totalAirdropTokens.toLocaleString()} tokens</p>
-        <p><strong>Tokens Allocated to 2.5%:</strong> ${allocationTokens.toLocaleString()} tokens</p>
-        <p><strong>Max Total Value:</strong> $${maxTotalValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
-        <p><strong>Max Individual Value:</strong> $${maxIndividualValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} per person</p>
-      `;
-    }
-  </script>
-</body>
-</html>
+      {/* Footer */}
+      <footer className="bg-gradient-to-t from-blue-900 to-black/50 py-12 px-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex justify-between mb-8">
+            <a href="#" className="hover:text-blue-400 transition-colors">About</a>
+            <a href="#" className="hover:text-blue-400 transition-colors">Careers</a>
+            <a href="#" className="hover:text-blue-400 transition-colors">Contact</a>
+          </div>
+          <p className="text-gray-400 opacity-80">
+            © 2023 Web3Hub. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+}
